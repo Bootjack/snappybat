@@ -1,0 +1,10 @@
+# Dependencies
+bower_components/
+node_modules/
+
+# OS Junk
+*~
+
+# IDE
+*.bfproject
+.idea

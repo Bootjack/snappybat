@@ -1,0 +1,24 @@
+{
+  "name": "Snappy Bat",
+  "authors": [
+    "Jason Hinebaugh <jason.hinebaugh@gmail.com>"
+  ],
+  "description": "A game example built with Proscenium",
+  "main": "game.js",
+  "moduleType": [
+    "amd"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "requirejs": "~2.1.20"
+  }
+}
