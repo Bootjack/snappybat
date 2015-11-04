@@ -7,7 +7,6 @@ define([
 ) {
 
     function winButtonClickHandler() {
-        console.log('Win button clicked', Proscenium.actors);
         Proscenium.actors.player.state.hasWon = true;
     }
 

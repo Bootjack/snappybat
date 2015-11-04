@@ -7,11 +7,19 @@
 </head>
 <body>
     <div id="game-container">
-        <div id="splash-curtain" class="curtain"></div>
+        <div id="splash-curtain" class="curtain">
+            <h2>Snappy Bat</h2>
+            <div class="levels"></div>
+        </div>
         <div id="level-controls-curtain" class="curtain">
               <button class="win">Win!</button>
         </div>
-        <svg id="snap-stage" width="400" height="600" />
+        <div id="result-curtain" class="curtain">
+            <button class="replay">Replay</button>
+            <button class="levels">Select Level</button>
+            <button class="proceed">Next Level</button>
+        </div>
+        <svg id="snap-stage" width="400" height="600"></svg>
     </div>
     <script src="require.js" data-main="game.js"></script>
 </body>

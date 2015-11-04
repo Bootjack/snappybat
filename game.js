@@ -20,13 +20,15 @@ require([
         'src/scenes/level1',
         'src/scenes/result',
         'src/curtains/splash',
-        'src/curtains/levelControls'
+        'src/curtains/levelControls',
+        'src/curtains/result'
     ], function (
         startScene,
         level1Scene,
         resultScene,
         splashCurtains,
-        levelControls
+        levelControlsCurtain,
+        resultCurtain
     ) {
         Proscenium.actor('player');
 
@@ -39,7 +41,8 @@ require([
           number: 3
         }];
 
-        Proscenium.curtain('levelControls', levelControls);
+        Proscenium.curtain('levelControls', levelControlsCurtain);
+        Proscenium.curtain('result', resultCurtain);
 
         Proscenium.scene('start', startScene);
         Proscenium.scene('level1', level1Scene);

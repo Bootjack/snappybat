@@ -1,32 +1,34 @@
 define([
-  'proscenium'
+    'proscenium'
 ], function(
-  Proscenium
+    Proscenium
 ) {
 
-  return {
-    curtains: ['levelControls'],
-    stages: [],
-    init: function(){
-      var self = this;
-      this.conditions.push({
-          test: function () {
-              console.log('Testing level 1 win condition', Proscenium.actors.player.state.hasWon);
-              return Proscenium.actors.player.state.hasWon;
-          },
-          run: function () {
-              self.end();
-              Proscenium.scenes.result.begin();
-          }
-      });
-      console.log('level 1 scene ready');
-    },
-    prep: function(){
-      Proscenium.curtains.levelControls.currentScene = this;
-      console.log('level 1 scene has begun');
-    },
-    clear: function(){
-      console.log('level 1 has ended');
+    return {
+        curtains: ['levelControls'],
+        stages: [],
+        init: function () {
+            var self = this;
+
+            this.conditions.push({
+                test: function () {
+                    return Proscenium.actors.player.state.hasWon;
+                },
+                run: function () {
+                    self.end();
+                    Proscenium.scenes.result.begin({
+                        currentScene: self,
+                        nextScene: Proscenium.scenes.level2
+                    });
+                }
+            });
+        },
+        prep: function () {
+            $(Proscenium.curtains.levelControls.element).show();
+        },
+        clear: function () {
+            Proscenium.actors.player.state.hasWon = false;
+            $(Proscenium.curtains.levelControls.element).hide();
+        }
     }
-  }
-})
+});

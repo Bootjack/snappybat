@@ -1,19 +1,19 @@
 define([
-  'jquery',
-  'proscenium'
+    'jquery',
+    'proscenium'
 ],function(
-  $,
-  Proscenium
+    $,
+    Proscenium
 ){
-  return {
-    curtains: ['splash'],
-    prep: function() {
-      var splash, $splash;
-
-      splash = Proscenium.curtains.splash;
-      splash.update();
-      $splash = $(splash.element);
-      $splash.show();
-    }
-  };
+    return {
+        curtains: ['splash'],
+        prep: function () {
+            var splash = Proscenium.curtains.splash;
+            splash.update();
+            $(splash.element).show();
+        },
+        clear: function () {
+            $(Proscenium.curtains.splash.element).hide();
+        }
+    };
 });

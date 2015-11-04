@@ -5,40 +5,30 @@ define([
     $,
     Proscenium
 ){
+    function handleLevelButtonClick (currentScene, levelNumber) {
+        var levelSceneId, scene;
+
+        levelSceneId = 'level' + levelNumber;
+        scene = Proscenium.scenes[levelSceneId];
+        if (scene) {
+            currentScene.end();
+            console.log('begin scene ' + scene.id);
+            scene.begin();
+        }
+    }
+
     return {
         element: 'splash-curtain',
-        init: function () {
-            var $element = $(this.element);
-            $element.on('click', 'button', function (evt) {
-                var level, levelSceneId, scene;
+        render: function () {
+            var $levels = $(this.element).find('.levels').html(''),
+                levels = this.levels || [],
+                self = this;
 
-                level = $(evt.target).attr('data-level');
-                levelSceneId = 'level' + level;
-                scene = Proscenium.scenes[levelSceneId];
-                if (scene) {
-                    console.log('begin scene ' + scene.id);
-                    scene.begin();
-                }
+            levels.forEach(function (level) {
+                var $button = $('<button>').text('Level ' + level.number);
+                $button.on('click', handleLevelButtonClick.bind(self, Proscenium.scenes.start, level.number));
+                $levels.append($button);
             });
-        },
-        template: function(data) {
-            var $html = $('<div>');
-
-            $html.append('<h1>Snappy Bat</h1>');
-
-            data.levels = data.levels || [];
-            data.levels.forEach(function (level) {
-                var $button = $('<button>').attr('data-level', level.number).text('Level ' + level.number);
-                $html.append($button);
-            });
-
-            return $html.html();
-
-            // $element.find('button.start').on('click', function(event){
-            //   event.stopPropagation();
-            //   Proscenium.scenes.start.end();
-            //   Proscenium.scenes.level1.begin();
-            // })
         }
     }
 });
