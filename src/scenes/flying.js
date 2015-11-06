@@ -5,8 +5,8 @@ define([
 ) {
 
     return {
-        curtains: ['levelControls'],
-        stages: [],
+        curtains: ['input', 'controls'],
+        stages: ['physics', 'snap'],
         init: function () {
             var self = this;
 
@@ -24,11 +24,20 @@ define([
             });
         },
         prep: function () {
-            $(Proscenium.curtains.levelControls.element).show();
+            var player = Proscenium.actors.player;
+
+            player.state.x = 200;
+            player.state.y = 100;
+            player.state.velocity = 0;
+
+            this.actors = this.actors.concat(player);
+
+            $(Proscenium.curtains.controls.element).show();
         },
         clear: function () {
             Proscenium.actors.player.state.hasWon = false;
-            $(Proscenium.curtains.levelControls.element).hide();
+            $(Proscenium.curtains.controls.element).hide();
+            this.actors = [];
         }
     }
 });

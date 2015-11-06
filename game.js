@@ -1,7 +1,7 @@
 require.config({
     paths: {
         jquery: 'bower_components/jquery/dist/jquery.min',
-        proscenium: 'lib/proscenium/proscenium.min',
+        proscenium: 'lib/proscenium/proscenium',
         snapsvg: 'bower_components/Snap.svg/dist/snap.svg-min'
     }
 });
@@ -16,21 +16,39 @@ require([
     Snap
 ) {
     require([
-        'src/scenes/start',
-        'src/scenes/level1',
-        'src/scenes/result',
+        'src/stages/physics',
+        'src/stages/snap',
+
+        'src/roles/bat',
+
         'src/curtains/splash',
-        'src/curtains/levelControls',
-        'src/curtains/result'
+        'src/curtains/input',
+        'src/curtains/controls',
+        'src/curtains/result',
+
+        'src/scenes/start',
+        'src/scenes/flying',
+        'src/scenes/result'
     ], function (
+        physicsStage,
+        snapStage,
+
+        batRole,
+
+        splashCurtains,
+        inputCurtain,
+        controlsCurtain,
+        resultCurtain,
+
         startScene,
         level1Scene,
-        resultScene,
-        splashCurtains,
-        levelControlsCurtain,
-        resultCurtain
+        resultScene
     ) {
-        Proscenium.actor('player');
+        Proscenium.stage('physics', physicsStage);
+        Proscenium.stage('snap', snapStage);
+
+        Proscenium.role('bat', batRole);
+        Proscenium.actor('player').role('bat');
 
         Proscenium.curtain('splash', splashCurtains);
         Proscenium.curtains.splash.levels = [{
@@ -41,7 +59,8 @@ require([
           number: 3
         }];
 
-        Proscenium.curtain('levelControls', levelControlsCurtain);
+        Proscenium.curtain('input', inputCurtain);
+        Proscenium.curtain('controls', controlsCurtain);
         Proscenium.curtain('result', resultCurtain);
 
         Proscenium.scene('start', startScene);
