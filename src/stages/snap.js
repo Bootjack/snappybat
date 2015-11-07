@@ -6,8 +6,17 @@ define([
     Snap
 ) {
 
-    var offset = {x: 0, y: -300},
-        scale = 1;
+    var offset = {x: 0, y: 0},
+        scale = 40; // meters per pixel
+
+    function buildPathString(path) {
+        var result = 'M' + path.origin.x * scale + ',' + path.origin.y * scale;
+        path.points.forEach(function (point) {
+            result += 'L' + point.x * scale + ',' + point.y * scale;
+        });
+        result += 'Z';
+        return result;
+    }
 
     return {
         init: function () {
@@ -16,14 +25,8 @@ define([
         prep: function () {
             var player;
             player = Proscenium.actors.player;
-            player.svg = this.snap.path('M-10,-10'
-                + 'L0,0'
-                + 'L10,-10'
-                + 'L10,0'
-                + 'L0,10'
-                + 'L-10,0'
-                + 'Z'
-            );
+            player.svg = this.snap.path(buildPathString(player.snap));
+            offset.y = -0.8 * $(this.snap.node).height() / scale;
         },
         evaluate: function () {
             var player, playerMatrix;
