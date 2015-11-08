@@ -11,7 +11,7 @@ define([
     }
 
     function winButtonClickHandler() {
-        Proscenium.actors.player.state.hasWon = true;
+        Proscenium.actors.player.state.isDead = true;
     }
 
     return {

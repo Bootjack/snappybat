@@ -1,5 +1,5 @@
 define([], function () {
-    var batAcceleration = 200,
+    var batAcceleration = 300,
         batFlapDuration = 10,
         batFlapCooldown = 100;
 
@@ -24,7 +24,6 @@ define([], function () {
             return handler;
         },
         flap: function () {
-            console.log(this.state.flapCooldown);
             if (this.state.flapCooldown < 0) {
                 this.set('flapDuration', batFlapDuration);
                 this.set('flapCooldown', batFlapCooldown);

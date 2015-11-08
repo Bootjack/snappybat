@@ -8,66 +8,62 @@ require.config({
 });
 
 require([
-    'jquery',
     'proscenium',
-    'snapsvg'
+
+    'src/stages/physics',
+    'src/stages/snap',
+
+    'src/roles/bat',
+    'src/roles/obstacle',
+
+    'src/curtains/splash',
+    'src/curtains/input',
+    'src/curtains/controls',
+    'src/curtains/result',
+
+    'src/scenes/start',
+    'src/scenes/flying',
+    'src/scenes/result'
 ], function (
-    $,
     Proscenium,
-    Snap
+
+    physicsStage,
+    snapStage,
+
+    batRole,
+    obstacleRole,
+
+    splashCurtains,
+    inputCurtain,
+    controlsCurtain,
+    resultCurtain,
+
+    startScene,
+    level1Scene,
+    resultScene
 ) {
-    require([
-        'src/stages/physics',
-        'src/stages/snap',
+    Proscenium.stage('physics', physicsStage);
+    Proscenium.stage('snap', snapStage);
 
-        'src/roles/bat',
+    Proscenium.role('bat', batRole);
+    Proscenium.actor('player').role('bat');
 
-        'src/curtains/splash',
-        'src/curtains/input',
-        'src/curtains/controls',
-        'src/curtains/result',
+    Proscenium.role('obstacle', obstacleRole);
+    Proscenium.actor('floor').role('obstacle');
+    Proscenium.actor('ceiling').role('obstacle');
 
-        'src/scenes/start',
-        'src/scenes/flying',
-        'src/scenes/result'
-    ], function (
-        physicsStage,
-        snapStage,
+    Proscenium.curtain('splash', splashCurtains);
+    Proscenium.curtains.splash.levels = [{
+      number: 1
+    }];
 
-        batRole,
+    Proscenium.curtain('input', inputCurtain);
+    Proscenium.curtain('controls', controlsCurtain);
+    Proscenium.curtain('result', resultCurtain);
 
-        splashCurtains,
-        inputCurtain,
-        controlsCurtain,
-        resultCurtain,
+    Proscenium.scene('start', startScene);
+    Proscenium.scene('level1', level1Scene);
+    Proscenium.scene('result', resultScene);
 
-        startScene,
-        level1Scene,
-        resultScene
-    ) {
-        Proscenium.stage('physics', physicsStage);
-        Proscenium.stage('snap', snapStage);
-
-        Proscenium.role('bat', batRole);
-        Proscenium.actor('player').role('bat');
-
-        Proscenium.curtain('splash', splashCurtains);
-        Proscenium.curtains.splash.levels = [{
-          number: 1
-        }, {
-          number: 2
-        }, {
-          number: 3
-        }];
-
-        Proscenium.curtain('input', inputCurtain);
-        Proscenium.curtain('controls', controlsCurtain);
-        Proscenium.curtain('result', resultCurtain);
-
-        Proscenium.scene('start', startScene);
-        Proscenium.scene('level1', level1Scene);
-        Proscenium.scene('result', resultScene);
-
-        Proscenium.scenes.start.begin();
-    });
+    Proscenium.scenes.start.begin();
 });

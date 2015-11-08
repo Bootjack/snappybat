@@ -1,8 +1,16 @@
 define([
+    'jquery',
     'proscenium'
 ], function(
+    $,
     Proscenium
 ) {
+
+    var levelDefinition;
+
+    levelDefinition = {
+
+    };
 
     return {
         curtains: ['input', 'controls'],
@@ -12,7 +20,7 @@ define([
 
             this.conditions.push({
                 test: function () {
-                    return Proscenium.actors.player.state.hasWon;
+                    return Proscenium.actors.player.state.isDead;
                 },
                 run: function () {
                     self.end();
@@ -24,20 +32,33 @@ define([
             });
         },
         prep: function () {
-            var player = Proscenium.actors.player;
+            var ceiling, floor, player;
 
-            player.state.x = 3;
-            player.state.y = 10;
-            player.state.velocity = 0;
+            player = Proscenium.actors.player
+                .set('x', 3)
+                .set('y', 10)
+                .set('velocity', 5);
 
-            this.actors = this.actors.concat(player);
+            Proscenium.actors.ceiling
+                .set('x', 0)
+                .set('y', 20)
+                .set('height', -10)
+                .set('width', 100);
+
+            Proscenium.actors.floor
+                .set('x', 0)
+                .set('y', 0)
+                .set('height', 10)
+                .set('width', 100);
+
+            this.actors = this.actors.concat(player, Proscenium.roles.obstacle.members);
 
             $(Proscenium.curtains.controls.element).show();
             $(Proscenium.curtains.input.element).show();
         },
         clear: function () {
             $(Proscenium.curtains.input.element).hide();
-            Proscenium.actors.player.state.hasWon = false;
+            Proscenium.actors.player.state.isDead = false;
             $(Proscenium.curtains.controls.element).hide();
             this.actors = [];
         }
