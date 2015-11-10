@@ -45,46 +45,35 @@ define([
             this.snap = Snap('#snap-stage');
         },
         prep: function () {
-            var ceiling, floor, player;
+            var ceiling, floor, player, snap;
 
             ceiling = Proscenium.actors.ceiling;
             floor = Proscenium.actors.floor;
             player = Proscenium.actors.player;
+            snap = this.snap;
 
             offset.y = -0.8 * $(this.snap.node).height() / scale;
 
-            ceiling.svg = this.snap.path(buildPathString(buildRectanglePath(ceiling.state))).addClass('ceiling');
-            floor.svg = this.snap.path(buildPathString(buildRectanglePath(floor.state))).addClass('floor');
             player.svg = this.snap.path(buildPathString(player.snap));
+
+            Proscenium.roles.obstacle.members.forEach(function (obstacle) {
+                obstacle.svg = snap.path(buildPathString(buildRectanglePath(obstacle.state)));
+            });
+
+            ceiling.svg.addClass('ceiling');
+            floor.svg.addClass('floor');
         },
         evaluate: function () {
-            var ceiling, floor, player, playerAbsolute, playerMatrix;
+            var player, playerMatrix;
 
-            ceiling = Proscenium.actors.ceiling;
-            floor = Proscenium.actors.floor;
             player = Proscenium.actors.player;
             playerMatrix = buildTranslationMatrix(player.state);
 
-            ceiling.svg.transform(buildTranslationMatrix(ceiling.state));
-            floor.svg.transform(buildTranslationMatrix(floor.state));
             player.svg.transform(playerMatrix);
 
-            playerAbsolute = Snap.path.map(player.svg, playerMatrix);
-
             Proscenium.roles.obstacle.members.forEach(function (obstacle) {
-                var collision, obstacleAbsolute, obstacleMatrix;
-
-                obstacleMatrix = buildTranslationMatrix(obstacle.state);
-                obstacleAbsolute = Snap.path.map(obstacle.svg, obstacleMatrix);
-
-                collision = Snap.path.isPointInside(obstacleAbsolute, playerMatrix.x(player.state.x, player.state.y), playerMatrix.y(player.state.x, player.state.y));
-                collision = collision || Snap.path.intersection(playerAbsolute, obstacleAbsolute).length;
-
-                if (collision) {
-                    console.log('Die!');
-                    Proscenium.actors.player.set('isDead', true);
-                    return true;
-                }
+                var obstacleMatrix = buildTranslationMatrix(obstacle.state);
+                obstacle.svg.transform(obstacleMatrix);
             });
         },
         clear: function (scene) {

@@ -1,6 +1,6 @@
 define([], function () {
-    var batAcceleration = 300,
-        batFlapDuration = 10,
+    var batAcceleration = 100,
+        batFlapDuration = 50,
         batFlapCooldown = 100;
 
     return {

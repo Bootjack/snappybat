@@ -10,6 +10,7 @@ require.config({
 require([
     'proscenium',
 
+    'src/stages/collision',
     'src/stages/physics',
     'src/stages/snap',
 
@@ -27,6 +28,7 @@ require([
 ], function (
     Proscenium,
 
+    collisionStage,
     physicsStage,
     snapStage,
 
@@ -42,6 +44,7 @@ require([
     level1Scene,
     resultScene
 ) {
+    Proscenium.stage('collision', collisionStage);
     Proscenium.stage('physics', physicsStage);
     Proscenium.stage('snap', snapStage);
 
@@ -51,6 +54,12 @@ require([
     Proscenium.role('obstacle', obstacleRole);
     Proscenium.actor('floor').role('obstacle');
     Proscenium.actor('ceiling').role('obstacle');
+
+    Proscenium.role('terrain');
+    (Array(10).join('ab') + 'a').split('b').forEach(function (x) {
+        Proscenium.actor().role(['obstacle', 'terrain']);
+    });
+    console.log(Proscenium.roles.terrain.members);
 
     Proscenium.curtain('splash', splashCurtains);
     Proscenium.curtains.splash.levels = [{

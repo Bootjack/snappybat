@@ -6,15 +6,42 @@ define([
     Proscenium
 ) {
 
-    var levelDefinition;
+    var levelDefinition,
+        obstacleHeightNorm = 8,
+        obstacleSpacingNorm = 12,
+        obstacleWidthNorm = 3;
 
     levelDefinition = {
 
     };
 
+    function distributedRandom(norm) {
+        var variance = Math.pow(0.8 * (2 * Math.random() - 1), 3);
+        return norm + (variance * norm);
+    }
+
+    function randomizeObstacles() {
+        var distance = distributedRandom(obstacleSpacingNorm);
+        Proscenium.roles.terrain.members.forEach(function (terrain) {
+            distance += distributedRandom(obstacleSpacingNorm);
+            terrain.set('x', distance);
+            terrain.set('width', distributedRandom(obstacleWidthNorm));
+
+            if (Math.random() < 0.5) {
+                terrain.set('y', 20);
+                terrain.set('height', distributedRandom(obstacleHeightNorm));
+
+            } else {
+                terrain.set('y', 0);
+                terrain.set('height', -1 * distributedRandom(obstacleHeightNorm));
+
+            }
+        });
+    }
+
     return {
         curtains: ['input', 'controls'],
-        stages: ['physics', 'snap'],
+        stages: ['physics', 'snap', 'collision'],
         init: function () {
             var self = this;
 
@@ -50,6 +77,9 @@ define([
                 .set('y', 0)
                 .set('height', 10)
                 .set('width', 100);
+
+            randomizeObstacles();
+            console.log(Proscenium.roles.terrain.members);
 
             this.actors = this.actors.concat(player, Proscenium.roles.obstacle.members);
 
