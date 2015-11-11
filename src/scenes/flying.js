@@ -16,7 +16,7 @@ define([
     };
 
     function distributedRandom(norm) {
-        var variance = Math.pow(0.8 * (2 * Math.random() - 1), 3);
+        var variance = Math.pow(0.8 * (2 * Math.random() - 1), 2);
         return norm + (variance * norm);
     }
 
